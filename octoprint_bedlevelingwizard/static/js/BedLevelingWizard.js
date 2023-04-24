@@ -130,10 +130,6 @@ $(function() {
 						self.current_point(self.current_point()+1);
 					}
 				} else {
-					self.gcode_cmds.push('G90');
-					self.gcode_cmds.push('G1 Z'+self.offset_z_travel()+' F'+self.travel_speed_probe());
-                    self.gcode_cmds.push(...self.settingsViewModel.settings.plugins.bedlevelingwizard.end_gcode().split('\n'));
-					var options = {text: 'Guided leveling process complete. Configured End GCode commands were just sent to your printer. Thank you for using the Bed Leveling Wizard.'};
 					self.stop_level();
 				}
 			} else { // use custom points
@@ -176,10 +172,6 @@ $(function() {
 						self.current_point(self.current_point()+1);
 					}
 				} else {
-					self.gcode_cmds.push('G90');
-					self.gcode_cmds.push('G1 Z'+self.offset_z_travel()+' F'+self.travel_speed_probe());
-                    self.gcode_cmds.push(...self.settingsViewModel.settings.plugins.bedlevelingwizard.end_gcode().split('\n'));
-					var options = {text: 'Guided leveling process complete. Configured End GCode commands were just sent to your printer. Thank you for using the Bed Leveling Wizard.'};
 					self.stop_level();
 				}
 			}
@@ -192,6 +184,10 @@ $(function() {
 
 		self.stop_level = function(){
 			console.log('Stopping Bed Leveling Wizard.');
+            self.gcode_cmds.push('G90');
+            self.gcode_cmds.push('G1 Z'+self.offset_z_travel()+' F'+self.travel_speed_probe());
+            self.gcode_cmds.push(...self.settingsViewModel.settings.plugins.bedlevelingwizard.end_gcode().split('\n'));
+            var options = {text: 'Guided leveling process complete. Configured End GCode commands were just sent to your printer. Thank you for using the Bed Leveling Wizard.'};
 			self.started(false);
 			self.stage('Start');
 			self.current_point(0);
